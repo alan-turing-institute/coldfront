@@ -103,6 +103,16 @@ Allocation Detail
             </td>
           </tr>
           <tr>
+            <th scope="row" class="text-nowrap">Sensitivity:</th>
+            <td>
+              {% if request.user.is_superuser %}
+                {{ form.sensitivity }}
+              {% else %}
+                {{ allocation.get_sensitivity_display }}
+              {% endif %}
+            </td>
+          </tr>
+          <tr>
             <th scope="row" class="text-nowrap">Created:</th>
             <td>{{ allocation.created|date:"M. d, Y" }}</td>
           </tr>

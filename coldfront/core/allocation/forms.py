@@ -20,6 +20,17 @@ class AllocationForm(forms.Form):
     users = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple, required=False)
     allocation_account = forms.ChoiceField(required=False)
+    start_date = forms.DateField(
+        widget=forms.DateInput(attrs={
+            'class': 'jquery_datepicker',
+        })
+    )
+    end_date = forms.DateField(
+        widget=forms.DateInput(attrs={
+            'class': 'jquery_datepicker',
+        })
+    )
+    sensitivity = forms.ChoiceField(choices=Allocation.sensitivity_choices)
 
     def __init__(self, request_user, project_pk,  *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -64,6 +75,7 @@ class AllocationUpdateForm(forms.Form):
     description = forms.CharField(max_length=512,
                                   label='Description',
                                   required=False)
+    sensitivity = forms.ChoiceField(choices=Allocation.sensitivity_choices)
 
     def clean(self):
         cleaned_data = super().clean()

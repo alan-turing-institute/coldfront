@@ -49,6 +49,19 @@ class Allocation(TimeStampedModel):
     is_locked = models.BooleanField(default=False)
     history = HistoricalRecords()
 
+    # ToDo Decide whether this would be better in the Project table
+    sensitivity_choices = [
+        (1, "Sensitive"),
+        (2, "Private non-sensitive"),
+        (3, "Public non-sensitive"),
+    ]
+    # ToDo This field should be mandatory
+    sensitivity = models.IntegerField(
+        choices=sensitivity_choices,
+        blank=True,
+        null=True,
+    )
+
     class Meta:
         ordering = ['end_date', ]
 

@@ -191,7 +191,8 @@ class AllocationDetailView(LoginRequiredMixin, UserPassesTestMixin, TemplateView
             'status': allocation_obj.status,
             'end_date': allocation_obj.end_date,
             'start_date': allocation_obj.start_date,
-            'description': allocation_obj.description
+            'description': allocation_obj.description,
+            'sensitivity': allocation_obj.sensitivity,
         }
 
         form = AllocationUpdateForm(initial=initial_data)
@@ -214,7 +215,8 @@ class AllocationDetailView(LoginRequiredMixin, UserPassesTestMixin, TemplateView
             'status': allocation_obj.status,
             'end_date': allocation_obj.end_date,
             'start_date': allocation_obj.start_date,
-            'description': allocation_obj.description
+            'description': allocation_obj.description,
+            'sensitivity': allocation_obj.sensitivity,
         }
         form = AllocationUpdateForm(request.POST, initial=initial_data)
 
@@ -223,8 +225,12 @@ class AllocationDetailView(LoginRequiredMixin, UserPassesTestMixin, TemplateView
             end_date = form_data.get('end_date')
             start_date = form_data.get('start_date')
             description = form_data.get('description')
+            sensitivity = form_data.get('sensitivity')
 
             allocation_obj.description = description
+            allocation_obj.sensitivity = sensitivity
+
+            # ToDo Could we have only one call to .save(), at the end?
             allocation_obj.save()
 
             if not start_date:
@@ -553,6 +559,9 @@ class AllocationCreateView(LoginRequiredMixin, UserPassesTestMixin, FormView):
         justification = form_data.get('justification')
         quantity = form_data.get('quantity', 1)
         allocation_account = form_data.get('allocation_account', None)
+        start_date = form_data.get('start_date')
+        end_date = form_data.get('end_date')
+        sensitivity = form_data.get('sensitivity')
         # A resource is selected that requires an account name selection but user has no account names
         if ALLOCATION_ACCOUNT_ENABLED and resource_obj.name in ALLOCATION_ACCOUNT_MAPPING and AllocationAttributeType.objects.filter(
                 name=ALLOCATION_ACCOUNT_MAPPING[resource_obj.name]).exists() and not allocation_account:
@@ -579,7 +588,10 @@ class AllocationCreateView(LoginRequiredMixin, UserPassesTestMixin, FormView):
             project=project_obj,
             justification=justification,
             quantity=quantity,
-            status=allocation_status_obj
+            status=allocation_status_obj,
+            start_date=start_date,
+            end_date=end_date,
+            sensitivity=sensitivity,
         )
         allocation_obj.resources.add(resource_obj)
 
