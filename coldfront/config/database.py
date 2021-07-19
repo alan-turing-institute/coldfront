@@ -26,7 +26,7 @@ from coldfront.config.env import ENV
 
 
 # NOTE: For postgresql you need to: pip install psycopg2
-if os.environ['DBUSER']:
+if os.environ.get('DBUSER', default=False):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',

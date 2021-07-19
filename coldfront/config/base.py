@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
 ]
@@ -70,6 +71,7 @@ INSTALLED_APPS += [
 #------------------------------------------------------------------------------
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -136,3 +138,6 @@ if len(SITE_STATIC) > 0:
 # Add system site static files
 if os.path.isdir('/usr/share/coldfront/site/static'):
     STATICFILES_DIRS.insert(0, '/usr/share/coldfront/site/static')
+
+# Avoid having to run collectstatic
+WHITENOISE_USE_FINDERS=True
