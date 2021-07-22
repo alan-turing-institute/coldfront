@@ -140,4 +140,4 @@ if os.path.isdir('/usr/share/coldfront/site/static'):
     STATICFILES_DIRS.insert(0, '/usr/share/coldfront/site/static')
 
 # Avoid having to run collectstatic
-WHITENOISE_USE_FINDERS=True
+WHITENOISE_USE_FINDERS = True
